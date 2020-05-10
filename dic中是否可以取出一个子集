@@ -1,0 +1,69 @@
+package com.test.alogrithm;
+
+import java.util.*;
+
+/**
+ * 
+ * @date 2020/5/10
+ *
+ * catanddog
+ * ca
+ * cat
+ *
+ * 题目：
+ * 给定一个字符串“catanddog”和一个字符串集合Set dic = {“cat”, “ca”, “and”, “dog”},
+ * 判断dic中是否可以取出一个子集，这个子集可以组成给定字符串。
+ */
+public class Children {
+
+    public static boolean findChild(String arr, Set dic){
+        if(arr == null || dic.size()<=0){
+            return Boolean.FALSE;
+        }
+        if(dic.contains(arr)){
+            return Boolean.TRUE;
+        }
+
+        Stack<String> stringStack = new Stack<>();
+
+        int begin = 0;
+        int end = 1;
+
+        while(end <= arr.length()){
+
+            if(dic.contains(arr.substring(begin, end))){
+
+                if(end == arr.length()){
+                    return Boolean.TRUE;
+                }
+                stringStack.push(arr.substring(begin, end));
+                end++;
+
+            }else{
+                if(!stringStack.empty() && end == arr.length()){
+                    String popStr = stringStack.pop();
+                    begin = arr.indexOf(popStr) + popStr.length();
+                    end = begin+1;
+                }else{
+                    end++;
+                }
+            }
+
+        }
+
+
+
+      return Boolean.FALSE;
+    }
+
+
+    public static void main(String[] args) {
+        Set dic = new HashSet();
+        dic.add("cat");
+        dic.add("ca");
+        dic.add("and");
+        dic.add("dog");
+
+        System.out.println(findChild("caddanddog", dic));
+    }
+}
